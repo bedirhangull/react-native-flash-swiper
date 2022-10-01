@@ -1,6 +1,6 @@
 {
   "name": "react-native-flash-swiper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native Flash Swiper, swiper component.",
   "homepage": "https://github.com/bedirhangull/react-native-flash-swiper#readme",
   "main": "lib/index.js",
@@ -63,5 +63,6 @@
       "json",
       "node"
     ]
-  }
+  },
+  "keywords": ["react-native-flash-swiper", "react native swiper", "swiper", "react native swiper"]
 }
