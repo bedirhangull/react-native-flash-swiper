@@ -38,7 +38,7 @@ export const FlashSwiper: React.FC<swiper> = ({ components, color, innerDotBackg
     } catch (error) {
       throw Error('components required');
     }
-  })
+  }, [])
 
 
   const pageCalculate = (x: number) => {
