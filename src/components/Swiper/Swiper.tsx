@@ -8,6 +8,12 @@ import { swiper } from '../../types/swiper';
 const screenWidth = Dimensions.get('screen').width;
 
 export const FlashSwiper: React.FC<swiper> = ({ components, color, innerDotBackground, innerDotBorderColor }) => {
+  const [scrollViewWidth, setScrollWidth] = useState<number>(0);
+  const [viewLayoutWidth, setViewLayoutWidth] = useState<number>(0);
+  const [currentPageonSwiper, setCurrentPageOnSwiper] = useState<number>(0);
+
+  const { swiperContainer, dotsContainer, container } = styles;
+
 
   //calculating scroll view width
   useEffect(() => {
@@ -32,32 +38,31 @@ export const FlashSwiper: React.FC<swiper> = ({ components, color, innerDotBackg
     } catch (error) {
       throw Error('components required');
     }
-  })
+  }, [])
 
-  const { swiperContainer, dotsContainer, container } = styles;
-
-  const [scrollViewWidth, setScrollWidth] = useState<number>(0);
-  const [viewLayoutWidth, setViewLayoutWidth] = useState<number>(0);
-  const [currentPageonSwiper, setCurrentPageOnSwiper] = useState<number>(0);
 
   const pageCalculate = (x: number) => {
     setCurrentPageOnSwiper(x / viewLayoutWidth);
   }
 
+  const onLayout = (event: any) => {
+    setViewLayoutWidth(event.nativeEvent.layout.width)
+  }
+
+  const onMomentumScrollEnd = (event: any) => {
+    pageCalculate(event.nativeEvent.contentOffset.x)
+  }
+
   return (
     <View style={container}>
-      <View onLayout={(event) => {
-        setViewLayoutWidth(event.nativeEvent.layout.width)
-      }} style={[swiperContainer, { width: scrollViewWidth }]}>
+      <View onLayout={onLayout} style={[swiperContainer, { width: scrollViewWidth }]}>
         <ScrollView
           decelerationRate={0}
           snapToAlignment={"center"}
           pagingEnabled={true}
           showsHorizontalScrollIndicator={false}
           horizontal={true}
-          onMomentumScrollEnd={(event) =>
-            pageCalculate(event.nativeEvent.contentOffset.x)
-          }
+          onMomentumScrollEnd={onMomentumScrollEnd}
         >
           {components.map((component: { component: JSX.Element }) => {
             return (component.component)
